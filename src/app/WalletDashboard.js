@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import QRCode from 'react-qr-code'
 import { Redirect } from 'react-router-dom'
 import { useWallet } from './WalletContext'
@@ -13,19 +13,28 @@ export default function WalletDashboard () {
   return (
     <div className='w-1/2 mx-auto py-16'>
       <BalancePanel wallet={context.wallet} />
-      <SendPanel />
-      <TransactionsPanel />
+      <SendPanel wallet={context.wallet} />
     </div>
   )
 }
 
 function BalancePanel ({ wallet }) {
+  const [balance, setBalance] = useState(null)
+
+  useEffect(() => {
+    wallet.getBalance().then((bal) => setBalance(bal))
+  }, [])
+
   return (
     <div className='bg-white border border-gray-200 px-8 py-8 mb-8'>
       <div className='flex justify-between'>
         <div className='flex flex-col justify-between'>
           <h1 className='text-4xl'>
-            120 AVAX
+            {balance == null ? (
+              <span>...</span>
+            ) : (
+              <span>{balance} nAVAX</span>
+            )}
           </h1>
           <div className=''>
             <span className='text-sm'>Receive to your wallet address</span>
@@ -39,44 +48,7 @@ function BalancePanel ({ wallet }) {
   )
 }
 
-function TransactionsPanel () {
-  const transactions = [
-    { from: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', to: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', amount: 120 },
-    { from: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', to: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', amount: 120 },
-    { from: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', to: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', amount: 120 },
-    { from: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', to: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', amount: 120 },
-    { from: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', to: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', amount: 120 },
-    { from: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', to: 'X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj', amount: 120 }
-  ]
-
-  return (
-    <div className='bg-white border border-gray-200 px-8 py-8 mb-8'>
-      <h2 className='text-2xl'>
-        Transactions
-      </h2>
-      <div>
-        <ul>
-          {transactions.map((tx, i) => (
-            <li key={i} className='border-t border-gray-200 pt-4 mt-4'>
-              <div>
-                <span className='text-xl'>
-                  {tx.amount} AVAX
-                </span>
-              </div>
-              <div className='flex text-sm text-gray-400'>
-                <span className='flex-grow truncate'>{tx.from}</span>
-                <span className='mx-2'>→</span>
-                <span className='flex-grow truncate'>{tx.to}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-function SendPanel () {
+function SendPanel ({ wallet }) {
   return (
     <div className='bg-white border border-gray-200 px-8 py-8 mb-8'>
       <h2 className='text-2xl mb-2'>

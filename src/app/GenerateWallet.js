@@ -28,25 +28,16 @@ function CreatedWallet ({ wallet }) {
         Your new wallet
       </h1>
 
-      <div className='mb-4'>
-        <span className='text-sm text-gray-400'>
-          {wallet.address}
-        </span>
-      </div>
-
-      <div className='border-b border-gray-200 pb-4 mb-6'>
-        <h2 className='text-lg mb-2'>
-          Your wallet mnemonic
-        </h2>
-        <ol className='grid grid-cols-6 gap-y-2 mb-2'>
-          {wallet.mnemonic.split(' ').map((word, i) => (
-            <li key={i} className='col-span-1'>
-              <span className='text-sm text-gray-400'>
-                {i + 1}. {word}
-              </span>
-            </li>
-          ))}
-        </ol>
+      <div className='border-b border-gray-200 pb-4 mb-4'>
+        <div className='border border-dashed border-gray-200 p-4 mb-4'>
+          <span className='text-sm text-gray-400'>
+            {wallet.address}
+          </span>
+          <br />
+          <span className='text-sm text-gray-400'>
+            {wallet.privateKey}
+          </span>
+        </div>
         <span className='text-xs text-orange-300'>
           To ensure you do not lose your funds, please write this information down.
         </span>
