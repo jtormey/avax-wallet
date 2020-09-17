@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import spinner from '../assets/spinner.gif'
+import * as walletStore from './wallet/wallet-store'
 import { useWallet } from './WalletContext'
 
 export default function GenerateWallet () {
@@ -22,6 +23,20 @@ export default function GenerateWallet () {
 }
 
 function CreatedWallet ({ wallet }) {
+  const history = useHistory()
+  const [persist, setPersist] = useState(false)
+
+  function handleSubmit () {
+    if (persist) {
+      walletStore.persist(wallet)
+    }
+    history.push('/wallet')
+  }
+
+  function handleChangePersist (event) {
+    setPersist(event.target.checked)
+  }
+
   return (
     <div>
       <h1 className='text-lg mb-2'>
@@ -44,12 +59,12 @@ function CreatedWallet ({ wallet }) {
       </div>
 
       <div className='flex items-center justify-between'>
-        <Link to='/wallet' className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4'>
+        <button onClick={handleSubmit} className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4'>
           To wallet dashboard
-        </Link>
+        </button>
 
         <div>
-          <input id='save_wallet_checkbox' type='checkbox' />
+          <input id='save_wallet_checkbox' type='checkbox' value={persist} onChange={handleChangePersist} />
           <label htmlFor='save_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
             Save this wallet in my browser
           </label>

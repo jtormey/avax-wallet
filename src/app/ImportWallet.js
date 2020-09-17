@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import * as walletStore from './wallet/wallet-store'
 import { useWallet } from './WalletContext'
 
 export default function GenerateWallet () {
@@ -7,11 +8,15 @@ export default function GenerateWallet () {
   const history = useHistory()
 
   const [privateKey, setPrivateKey] = useState('')
+  const [persist, setPersist] = useState(false)
   const [error, setError] = useState(false)
 
-  async function handleSubmit () {
+  function handleSubmit () {
     try {
-      await context.fromPrivateKey(privateKey.trim())
+      const wallet = context.fromPrivateKey(privateKey.trim())
+      if (persist) {
+        walletStore.persist(wallet)
+      }
       history.push('/wallet')
     } catch (e) {
       console.error(e)
@@ -21,6 +26,10 @@ export default function GenerateWallet () {
 
   function handleChangePrivateKey (event) {
     setPrivateKey(event.target.value)
+  }
+
+  function handleChangePersist (event) {
+    setPersist(event.target.checked)
   }
 
   return (
@@ -48,8 +57,8 @@ export default function GenerateWallet () {
           </button>
 
           <div>
-            <input id='save_wallet_checkbox' type='checkbox' />
-            <label htmlFor='save_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
+            <input id='import_wallet_checkbox' type='checkbox' value={persist} onChange={handleChangePersist} />
+            <label htmlFor='import_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
               Save this wallet in my browser
             </label>
           </div>

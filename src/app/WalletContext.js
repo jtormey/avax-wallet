@@ -12,11 +12,15 @@ export function useWallet () {
     async refresh () {
       context.setBalance(await context.wallet.getBalance())
     },
-    async generateNew () {
-      context.setWallet(WalletState.generateNew())
+    generateNew () {
+      const wallet = WalletState.generateNew()
+      context.setWallet(wallet)
+      return wallet
     },
-    async fromPrivateKey (privateKey) {
-      context.setWallet(WalletState.fromPrivateKey(privateKey))
+    fromPrivateKey (privateKey) {
+      const wallet = WalletState.fromPrivateKey(privateKey)
+      context.setWallet(wallet)
+      return wallet
     }
   }
 }

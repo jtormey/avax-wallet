@@ -1,18 +1,47 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useMemo } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import * as walletStore from './wallet/wallet-store'
+import { useWallet } from './WalletContext'
 
 export default function WalletEntry () {
+  const history = useHistory()
+  const context = useWallet()
+  const { wallets } = useMemo(() => walletStore.list(), [])
+
+  function handleOpenExisting (privateKey) {
+    context.fromPrivateKey(privateKey.trim())
+    history.push('/wallet')
+  }
+
+  function handleRemoveExisting (address) {
+    walletStore.remove(address)
+    window.location.reload()
+  }
+
   return (
     <div className='w-1/3 flex flex-col py-32 mx-auto'>
       <Link to='/generate'>
         <GenerateNew />
       </Link>
+
       <Link to='/import'>
         <LoadExisting />
       </Link>
+
       <WalletsDivider />
-      <NoWalletsNotice />
-      <ExistingWallet address='X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj' />
+
+      {wallets.length ? (
+        wallets.map((wallet) => (
+          <ExistingWallet
+            key={wallet.address}
+            address={wallet.address}
+            onClick={() => handleOpenExisting(wallet.privateKey)}
+            onRemove={() => handleRemoveExisting(wallet.address)}
+          />
+        ))
+      ) : (
+        <NoWalletsNotice />
+      )}
     </div>
   )
 }
@@ -57,11 +86,16 @@ function NoWalletsNotice () {
   )
 }
 
-function ExistingWallet ({ address }) {
+function ExistingWallet ({ address, onClick, onRemove }) {
+  function handleRemove (event) {
+    event.stopPropagation()
+    onRemove()
+  }
+
   return (
-    <div className='border border-gray-400 cursor-pointer px-10 py-6'>
+    <div className='border border-gray-400 cursor-pointer px-10 py-6 mb-6' onClick={onClick}>
       <span className='text-lg text-gray-400'>
-        Existing wallet
+        Existing wallet <span className='text-xs text-red-500 float-right' onClick={handleRemove}>remove</span>
       </span>
       <br />
       <span className='text-xs text-gray-400'>
