@@ -32,6 +32,10 @@ module.exports = {
           'postcss-loader',
           'sass-loader'
         ]
+      },
+      {
+        test: /\.(gif)$/,
+        use: 'file-loader'
       }
     ]
   },
@@ -45,5 +49,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: resolve('public/index.html')
     })
-  ]
+  ],
+  devServer: {
+    historyApiFallback: true
+  }
 }

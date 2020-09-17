@@ -1,9 +1,12 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 export default function WalletEntry () {
   return (
     <div className='w-1/3 flex flex-col py-32 mx-auto'>
-      <GenerateNew />
+      <Link to='/generate'>
+        <GenerateNew />
+      </Link>
       <LoadExisting />
       <WalletsDivider />
       <NoWalletsNotice />
@@ -14,7 +17,7 @@ export default function WalletEntry () {
 
 function GenerateNew () {
   return (
-    <div className='border border-blue-500 bg-blue-500 cursor-pointer px-10 py-6 mb-6'>
+    <div className='border border-blue-500 bg-blue-500 px-10 py-6 mb-6'>
       <span className='text-lg text-white'>
         Generate a new wallet <span className='float-right'>›</span>
       </span>

@@ -19,6 +19,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
     "tailwindcss": "^1.8.10"
   },
   "devDependencies": {
@@ -29,8 +31,9 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.4.2",
-    "mini-css-extract-plugin": "^0.9.0",
+    "file-loader": "^6.1.0",
     "html-webpack-plugin": "^4.4.1",
+    "mini-css-extract-plugin": "^0.9.0",
     "node-env-file": "^0.1.8",
     "node-sass": "^4.13.1",
     "postcss-loader": "^3.0.0",

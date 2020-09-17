@@ -1,10 +1,25 @@
 import React from 'react'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import WalletEntry from './WalletEntry'
+import WalletDashboard from './WalletDashboard'
+import GenerateWallet from './GenerateWallet'
 
 export default function App () {
   return (
-    <div className='container mx-auto'>
-      <WalletEntry />
-    </div>
+    <Router>
+      <div className='container mx-auto'>
+        <Switch>
+          <Route path='/generate'>
+            <GenerateWallet />
+          </Route>
+          <Route path='/wallet'>
+            <WalletDashboard />
+          </Route>
+          <Route path='/'>
+            <WalletEntry />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   )
 }
