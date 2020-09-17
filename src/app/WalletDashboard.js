@@ -138,7 +138,7 @@ function SendPanel ({ context }) {
       </div>
 
       {waiting && (
-        <div className='absolute inset-0 flex items-center justify-center opacity-50'>
+        <div className='absolute inset-0 flex items-center justify-center bg-white opacity-50'>
           <img src={spinner} className='w-32 h-32' />
         </div>
       )}
