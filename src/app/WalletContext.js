@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext } from 'react'
-import { generateNew } from './wallet-state'
+import { generateNew } from './wallet/wallet-state'
 
 const Context = createContext({ wallet: null })
 

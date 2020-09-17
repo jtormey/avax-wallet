@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import spinner from './assets/spinner.gif'
+import spinner from '../assets/spinner.gif'
 import { useWallet } from './WalletContext'
 
 export default function GenerateWallet () {
