@@ -9,7 +9,7 @@ export default function GenerateWallet () {
   useEffect(() => { context.generateNew() }, [])
 
   return (
-    <div className='w-1/2 mx-auto py-32'>
+    <div className='w-1/2 mx-auto py-16'>
       <div className='bg-white border border-gray-200 px-8 py-8'>
         {context.wallet ? <CreatedWallet wallet={context.wallet} /> : (
           <div className='flex items-center justify-center h-32'>
