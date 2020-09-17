@@ -1,48 +1,56 @@
 import { BN } from 'avalanche'
+import BigNumber from 'bignumber.js'
 import avax, { getAssetID } from './avax'
 
-window.BN = BN
+const denomination = new BigNumber(1000000000)
 
-export function generateNew () {
-  const xchain = avax.XChain()
-  const keyChain = xchain.keyChain()
-  const address = keyChain.makeKey()
-
-  // debugger
-
-  window.xchain = xchain
-  window.keyChain = keyChain
-  window.address = address
-
-  return {
-    xchain,
-    address: address.getAddressString(),
-    privateKey: address.getPrivateKeyString(),
-    async getBalance () {
-      const assetID = await getAssetID(xchain)
-      const balance = await xchain.getBalance(address.getAddressString(), assetID)
-      return balance.balance
-    },
-    async send (utxos) {
-      const amount = new BN(100)
-      const to = 'X-avax1k26jvfdzyukms95puxcceyzsa3lzwf5ftt0fjk'
-      const addresses = keyChain.getAddressStrings()
-      const unsignedTx = await xchain.buildBaseTx(utxos, amount, [to], addresses, addresses, 'AVAX')
-      const signedTx = xchain.signTx(unsignedTx)
-      const txid = await xchain.issueTx(signedTx)
-      return txid
-    }
-  }
+function renderBalance (balance) {
+  return new BigNumber(balance).dividedBy(denomination).toFixed(9).replace(/\.?0+$/, '')
 }
 
-export function loadFromMnemonic (mnemonic) {
-  return {
-    state: 'loaded'
+export default class WalletState {
+  constructor (xchain, address) {
+    this._xchain = xchain
+    this._address = address
   }
-}
 
-export function loadExisting (password) {
-  return {
-    state: 'loaded'
+  get address () {
+    return this._address.getAddressString()
+  }
+
+  get privateKey () {
+    return this._address.getPrivateKeyString()
+  }
+
+  async getBalance () {
+    const assetID = await getAssetID(this._xchain)
+    const balance = await this._xchain.getBalance(this.address, assetID)
+    return renderBalance(balance.balance)
+  }
+
+  async sendAddressAmount (address, amount) {
+    const amountBigNumber = new BigNumber(amount).multipliedBy(denomination)
+    const amountBN = new BN(amountBigNumber.toFixed(0))
+
+    const addresses = this._xchain.keyChain().getAddressStrings()
+    const utxos = await this._xchain.getUTXOs(addresses)
+
+    const assetID = await getAssetID('AVAX')
+    const unsignedTx = await this._xchain.buildBaseTx(utxos, amountBN, assetID, [address], addresses, addresses)
+    const signedTx = this._xchain.signTx(unsignedTx)
+    const txid = await this._xchain.issueTx(signedTx)
+
+    return { txid }
+  }
+
+  async getTxAccepted (txid) {
+    const txStatus = await this._xchain.getTxStatus(txid)
+    return txStatus === 'Accepted'
+  }
+
+  static generateNew () {
+    const xchain = avax.XChain()
+    const address = xchain.keyChain().makeKey()
+    return new WalletState(xchain, address)
   }
 }
