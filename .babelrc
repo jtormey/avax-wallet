@@ -1,11 +1,9 @@
 {
   "presets": [
-    "@babel/react"
+    "@babel/react",
+    "@babel/env"
   ],
   "plugins": [
-    "@babel/proposal-async-generator-functions",
-    "@babel/proposal-class-properties",
-    "@babel/proposal-object-rest-spread",
     "@babel/proposal-optional-chaining"
   ]
 }
