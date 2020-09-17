@@ -7,7 +7,9 @@ export default function WalletEntry () {
       <Link to='/generate'>
         <GenerateNew />
       </Link>
-      <LoadExisting />
+      <Link to='/import'>
+        <LoadExisting />
+      </Link>
       <WalletsDivider />
       <NoWalletsNotice />
       <ExistingWallet address='X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj' />
@@ -29,7 +31,7 @@ function LoadExisting () {
   return (
     <div className='border border-blue-500 bg-white cursor-pointer px-10 py-6 mb-6'>
       <span className='text-lg text-blue-500'>
-        Load wallet from a mnemonic <span className='float-right'>›</span>
+        Load wallet from a private key <span className='float-right'>›</span>
       </span>
     </div>
   )

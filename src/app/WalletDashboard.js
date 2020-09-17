@@ -59,7 +59,7 @@ function SendPanel ({ context }) {
   const [toAddress, setToAddress] = useState('')
   const [toAmount, setToAmount] = useState(0)
   const [waiting, setWaiting] = useState(false)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState(false)
 
   function handleChangeAddress (event) {
     setToAddress(event.target.value)

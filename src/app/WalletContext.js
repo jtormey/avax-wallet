@@ -14,6 +14,9 @@ export function useWallet () {
     },
     async generateNew () {
       context.setWallet(WalletState.generateNew())
+    },
+    async fromPrivateKey (privateKey) {
+      context.setWallet(WalletState.fromPrivateKey(privateKey))
     }
   }
 }

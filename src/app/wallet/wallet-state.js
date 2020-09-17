@@ -53,4 +53,10 @@ export default class WalletState {
     const address = xchain.keyChain().makeKey()
     return new WalletState(xchain, address)
   }
+
+  static fromPrivateKey (privateKey) {
+    const xchain = avax.XChain()
+    const address = xchain.keyChain().importKey(privateKey)
+    return new WalletState(xchain, address)
+  }
 }

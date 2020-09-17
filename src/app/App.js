@@ -4,6 +4,7 @@ import WalletContext from './WalletContext'
 import WalletEntry from './WalletEntry'
 import WalletDashboard from './WalletDashboard'
 import GenerateWallet from './GenerateWallet'
+import ImportWallet from './ImportWallet'
 
 export default function App () {
   return (
@@ -13,6 +14,9 @@ export default function App () {
           <Switch>
             <Route path='/generate'>
               <GenerateWallet />
+            </Route>
+            <Route path='/import'>
+              <ImportWallet />
             </Route>
             <Route path='/wallet'>
               <WalletDashboard />
