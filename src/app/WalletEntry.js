@@ -19,7 +19,7 @@ export default function WalletEntry () {
   }
 
   return (
-    <div className='w-1/3 flex flex-col py-32 mx-auto'>
+    <div className='sm:w-1/3 flex flex-col py-16 mx-4 sm:mx-auto'>
       <Link to='/generate'>
         <GenerateNew />
       </Link>
@@ -97,10 +97,9 @@ function ExistingWallet ({ address, onClick, onRemove }) {
       <span className='text-lg text-gray-400'>
         Existing wallet <span className='text-xs text-red-500 float-right' onClick={handleRemove}>remove</span>
       </span>
-      <br />
-      <span className='text-xs text-gray-400'>
-        {address}
-      </span>
+      <div className='text-xs text-gray-400 truncate'>
+        <span>{address}</span>
+      </div>
     </div>
   )
 }

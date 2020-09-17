@@ -14,7 +14,7 @@ export default function WalletDashboard () {
   }
 
   return (
-    <div className='w-1/2 mx-auto py-16'>
+    <div className='sm:w-1/2 mx-4 sm:mx-auto py-16'>
       <BalancePanel context={context} />
       <SendPanel context={context} />
     </div>
@@ -28,9 +28,9 @@ function BalancePanel ({ context }) {
 
   return (
     <div className='bg-white border border-gray-200 px-8 py-8 mb-8'>
-      <div className='flex justify-between'>
-        <div className='flex flex-col justify-between'>
-          <h1 className='text-4xl'>
+      <div className='flex flex-col sm:flex-row items-center sm:items-stretch justify-between'>
+        <div className='flex flex-col justify-between w-full sm:w-auto'>
+          <h1 className='text-2xl sm:text-4xl'>
             {context.balance == null ? (
               <span>...</span>
             ) : (
@@ -42,10 +42,11 @@ function BalancePanel ({ context }) {
               </span>
             )}
           </h1>
-          <div className=''>
+          <div className='mb-4 sm:mb-0'>
             <span className='text-sm'>Receive to your wallet address</span>
-            <br />
-            <span className='text-sm text-gray-400'>{wallet.address}</span>
+            <div className='break-words'>
+              <span className='text-sm text-gray-400'>{wallet.address}</span>
+            </div>
           </div>
         </div>
         <QRCode value={wallet.address} size={128} />

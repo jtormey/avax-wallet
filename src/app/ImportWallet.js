@@ -33,7 +33,7 @@ export default function GenerateWallet () {
   }
 
   return (
-    <div className='w-1/2 mx-auto py-16'>
+    <div className='sm:w-1/2 mx-4 sm:mx-auto py-16'>
       <div className='bg-white border border-gray-200 px-8 py-8'>
         <h1 className='text-lg mb-2'>
           Import private key
@@ -51,12 +51,12 @@ export default function GenerateWallet () {
           )}
         </div>
 
-        <div className='flex items-center justify-between'>
+        <div className='flex flex-col sm:flex-row sm:items-center justify-between'>
           <button onClick={handleSubmit} className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4'>
             Import wallet key
           </button>
 
-          <div>
+          <div className='mt-4 sm:mt-0'>
             <input id='import_wallet_checkbox' type='checkbox' value={persist} onChange={handleChangePersist} />
             <label htmlFor='import_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
               Save this wallet in my browser

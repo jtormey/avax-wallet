@@ -10,7 +10,7 @@ export default function GenerateWallet () {
   useEffect(() => { context.generateNew() }, [])
 
   return (
-    <div className='w-1/2 mx-auto py-16'>
+    <div className='sm:w-1/2 mx-4 sm:mx-auto py-16'>
       <div className='bg-white border border-gray-200 px-8 py-8'>
         {context.wallet ? <CreatedWallet wallet={context.wallet} /> : (
           <div className='flex items-center justify-center h-32'>
@@ -45,11 +45,11 @@ function CreatedWallet ({ wallet }) {
 
       <div className='border-b border-gray-200 pb-4 mb-4'>
         <div className='border border-dashed border-gray-200 p-4 mb-4'>
-          <span className='text-sm text-gray-400'>
+          <span className='text-sm text-gray-400 break-words'>
             {wallet.address}
           </span>
           <br />
-          <span className='text-sm text-gray-400'>
+          <span className='text-sm text-gray-400 break-words'>
             {wallet.privateKey}
           </span>
         </div>
@@ -58,12 +58,12 @@ function CreatedWallet ({ wallet }) {
         </span>
       </div>
 
-      <div className='flex items-center justify-between'>
+      <div className='flex flex-col sm:flex-row sm:items-center justify-between'>
         <button onClick={handleSubmit} className='bg-blue-500 hover:bg-blue-600 text-white py-2 px-4'>
           To wallet dashboard
         </button>
 
-        <div>
+        <div className='mt-4 sm:mt-0'>
           <input id='save_wallet_checkbox' type='checkbox' value={persist} onChange={handleChangePersist} />
           <label htmlFor='save_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
             Save this wallet in my browser
