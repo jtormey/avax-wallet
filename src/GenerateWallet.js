@@ -1,22 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import spinner from './assets/spinner.gif'
+import { useWallet } from './WalletContext'
 
 export default function GenerateWallet () {
-  const [generated, setGenerated] = useState(false)
+  const context = useWallet()
 
-  const mnemonic = 'gift palace village frost congress swear rigid alpha essay foster bitter filter into essence endorse small input refuse join model chief lizard topple sun'
-
-  useEffect(() => {
-    setTimeout(() => {
-      setGenerated(true)
-    }, 1000)
-  }, [])
+  useEffect(() => { context.generateNew() }, [])
 
   return (
     <div className='w-1/2 mx-auto py-32'>
       <div className='bg-white border border-gray-200 px-8 py-8'>
-        {generated ? <CreatedWallet mnemonic={mnemonic} /> : (
+        {context.wallet ? <CreatedWallet wallet={context.wallet} /> : (
           <div className='flex items-center justify-center h-32'>
             <img src={spinner} className='w-32 h-32' />
           </div>
@@ -26,7 +21,7 @@ export default function GenerateWallet () {
   )
 }
 
-function CreatedWallet ({ mnemonic }) {
+function CreatedWallet ({ wallet }) {
   return (
     <div>
       <h1 className='text-lg mb-2'>
@@ -35,7 +30,7 @@ function CreatedWallet ({ mnemonic }) {
 
       <div className='mb-4'>
         <span className='text-sm text-gray-400'>
-          X-everest1x3xwpq68p7mfpy5rt59mevrj0ccs423ujh76kj
+          {wallet.address}
         </span>
       </div>
 
@@ -44,7 +39,7 @@ function CreatedWallet ({ mnemonic }) {
           Your wallet mnemonic
         </h2>
         <ol className='grid grid-cols-6 gap-y-2 mb-2'>
-          {mnemonic.split(' ').map((word, i) => (
+          {wallet.mnemonic.split(' ').map((word, i) => (
             <li key={i} className='col-span-1'>
               <span className='text-sm text-gray-400'>
                 {i + 1}. {word}
@@ -64,7 +59,7 @@ function CreatedWallet ({ mnemonic }) {
 
         <div>
           <input id='save_wallet_checkbox' type='checkbox' />
-          <label for='save_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
+          <label htmlFor='save_wallet_checkbox' className='text-sm text-gray-400 ml-2'>
             Save this wallet in my browser
           </label>
         </div>
